@@ -1,0 +1,18 @@
+{% extends "ADBMS/base.html" %}
+{% block content %}
+    <h1>Advanced Database Systems final project.</h1>
+    <p>Project description here...<p>
+{% endblock content %}
+
+{% block sidebar %}
+    <div class="col-md-4">
+        <div class="content-section">
+            <h3>Sidebar</h3>
+            <p class='text-muted'>DB Models
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-light"><a href="{% url 'suppliers' %}">Suppliers</a></li>
+            </ul>
+            </p>
+        </div>
+    </div>
+{% endblock %}

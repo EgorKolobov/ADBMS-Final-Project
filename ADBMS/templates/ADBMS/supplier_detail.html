@@ -1,0 +1,14 @@
+{% extends "ADBMS/base.html" %}
+{% block content %}
+    <h1>Supplier details</h1>
+    <article class="media content-section">
+        <div class="media-body">
+            <h2 class="article-title">{{ supplier.name }}</h2>
+            <p class="article-content">ID:{{ supplier.pk }}</p>
+            <p class="article-content">Name: {{ supplier.name }}</p>
+            <p class="article-content">Shipment Postal Code: {{ supplier.shipment_postal_code }}</p>
+            <p class="article-content">Shipment Address: {{ supplier.shipment_address }}</p>
+        </div>
+    </article>
+    <a href="{% url 'suppliers' %}">Back</a>
+{% endblock content %}
