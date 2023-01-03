@@ -11,4 +11,6 @@
         </div>
     </article>
     <a href="{% url 'suppliers' %}">Back</a>
+    <a href="{% url 'supplier-delete' supplier.pk %}">Delete</a>
+    <a href="{% url 'supplier-update' supplier.pk %}">Update</a>
 {% endblock content %}
