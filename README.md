@@ -13,7 +13,7 @@ python manage.py migrate
 ````
 To start a local server, run
 ````
-python manage.py startserver
+python manage.py runserver
 ````
 If you want to use and admin page, type **/admin** in the search bar
 
