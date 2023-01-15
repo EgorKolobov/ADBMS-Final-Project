@@ -1,46 +1,55 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Supplier
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    DeleteView,
-    UpdateView
-)
+from django.shortcuts import render
+import neo4jupyter
+from py2neo import Graph
+from neo4j import GraphDatabase
+from pandas import DataFrame
+
+
+class Neo4jConnection:
+
+    def __init__(self, uri, user, pwd):
+        self.__uri = uri
+        self.__user = user
+        self.__pwd = pwd
+        self.__driver = None
+        try:
+            self.__driver = GraphDatabase.driver(self.__uri, auth=(self.__user, self.__pwd))
+        except Exception as e:
+            print("Failed to create the driver:", e)
+
+    def close(self):
+        if self.__driver is not None:
+            self.__driver.close()
+
+    def query(self, query, db=None):
+        assert self.__driver is not None, "Driver not initialized!"
+        session = None
+        response = None
+        try:
+            session = self.__driver.session(database=db) if db is not None else self.__driver.session()
+            response = list(session.run(query))
+        except Exception as e:
+            print("Query failed:", e)
+        finally:
+            if session is not None:
+                session.close()
+        return response
 
 
 def home(request):
-    return render(request, 'ADBMS/index.html', {'title': 'Home'})
+    return render(request, 'ADBMS/index.html')
 
 
-class SupplierListView(ListView):
-    model = Supplier
-    template_name = 'ADBMS/suppliers.html'
-    context_object_name = 'suppliers'
-    extra_context = {'title': 'All Suppliers'}
-
-
-class SupplierDetailView(DetailView):
-    model = Supplier
-    template_name = 'ADBMS/supplier_detail.html'
-    context_object_name = 'supplier'
-    extra_context = {'title': 'Supplier\'s details'}
-
-
-class SupplierCreateView(CreateView):
-    model = Supplier
-    template_name = "ADBMS/supplier_form.html"
-    fields = ['name', 'shipment_postal_code', 'shipment_address']
-
-
-class SupplierDeleteView(DeleteView):
-    model = Supplier
-    context_object_name = 'supplier'
-    success_url = '/suppliers/'
-
-
-class SuppliersUpdateView(UpdateView):
-    model = Supplier
-    template_name = "ADBMS/supplier_update_form.html"
-    fields = ['name', 'shipment_postal_code', 'shipment_address']
-    # success_url = '/suppliers/'
+def neo4j_query1(request):
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''match (:SUPPLIER {sname:"品冠行銷股份有限公司"}) -[:PROVIDE]->(p:PRODUCT)<-[conn:CONNECT]-(:PRG)<-[ct:CONTAIN]-(:RG)
+    # return p, count(ct) as degree
+    # ORDER BY degree DESC
+    # LIMIT 1
+    #     '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')])
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    return render(request, 'ADBMS/neo4j_query1.html', {'title': 'Home'})
