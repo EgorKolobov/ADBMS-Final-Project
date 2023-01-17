@@ -6,17 +6,17 @@
         <label for="freeform">Sample neo4j Query №1</label>
         <br>
         <textarea id="freeform" name="freeform" rows="6" cols="85">
-                match (:SUPPLIER {sname:"品冠行銷股份有限公司"}) -[:PROVIDE]->(p:PRODUCT)<-[conn:CONNECT]-(:PRG)<-[ct:CONTAIN]-(:RG)
-                return p, count(ct) as degree
-                ORDER BY degree DESC
-                LIMIT 1
+                MATCH path = (uu:USER)-[h:HAVING]->(rg:RG)-[ct:CONTAIN]->(prg:PRG)-[conn:CONNECT]->(p:PRODUCT)<-[prov:PROVIDE]-(ss:SUPPLIER {sname:"品冠行銷股份有限公司"})
+return count(path) AS CT, uu
+ORDER BY CT DESC
+LIMIT 3
             </textarea>
         <div class="form-group">
             <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
                 Run
             </button>
             <!-- Add id to image -->
-            <img id="graph" style="display:none;" width="150px" src="neo4j_1.jpg"/>
+            <img id="graph" style="display:none;" src="../../static/img/neo4j_1.png"/>
         </div>
 
         <script>

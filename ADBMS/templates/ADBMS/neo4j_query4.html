@@ -1,0 +1,31 @@
+{% extends "ADBMS/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="freeform">Sample neo4j Query №2</label>
+        <br>
+        <textarea id="freeform" name="freeform" rows="6" cols="85">
+            MATCH (s:SUPPLIER)-[:PROVIDE]->(:PRODUCT)-[t:BELONG] -(c:CATEGORY)
+    return s.sname AS name, collect(DISTINCT c.class_name) AS sells
+            </textarea>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
+                Run
+            </button>
+            <div>
+                <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>name</th> <th>sells</th> </tr> </thead> <tbody> <tr> <th>0</th> <td>台灣奇士美化粧品股份有限公司</td> <td>[]</td> </tr> <tr> <th>1</th> <td>雅麗仙國際有限公司</td> <td>[]</td> </tr> <tr> <th>2</th> <td>上鈴股份有限公司</td> <td>[]</td> </tr> <tr> <th>3</th> <td>廣英有限公司</td> <td>[]</td> </tr> <tr> <th>4</th> <td>元陞國際有限公司</td> <td>[]</td> </tr> </tbody> </table>
+            </div>
+            <!-- Add id to image -->
+            {#            <img id="graph" style="display:none;" src="../../static/img/neo4j_2.png"/>#}
+        </div>
+
+        {#        <script>#}
+        {#            function show() {#}
+        {#                document.getElementById('graph').style.display = "block";#}
+        {#                document.getElementById('btnID').style.display = "none";#}
+        {#            }#}
+        {#        </script>#}
+    </form>
+    </div>
+{% endblock %}
