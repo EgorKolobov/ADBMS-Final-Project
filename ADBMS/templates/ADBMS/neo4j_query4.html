@@ -13,19 +13,66 @@
             <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
                 Run
             </button>
-            <div>
-                <table border="1" class="dataframe"> <thead> <tr style="text-align: right;"> <th></th> <th>name</th> <th>sells</th> </tr> </thead> <tbody> <tr> <th>0</th> <td>台灣奇士美化粧品股份有限公司</td> <td>[]</td> </tr> <tr> <th>1</th> <td>雅麗仙國際有限公司</td> <td>[]</td> </tr> <tr> <th>2</th> <td>上鈴股份有限公司</td> <td>[]</td> </tr> <tr> <th>3</th> <td>廣英有限公司</td> <td>[]</td> </tr> <tr> <th>4</th> <td>元陞國際有限公司</td> <td>[]</td> </tr> </tbody> </table>
+            <div style="display:none;" id="table">
+                <table border="1" class="dataframe">
+                    <thead>
+                    <tr style="text-align: right;">
+                        <th></th>
+                        <th>name</th>
+                        <th>sells</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>0</th>
+                        <td>台灣奇士美化粧品股份有限公司</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <td>雅麗仙國際有限公司</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>上鈴股份有限公司</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>廣英有限公司</td>
+                        <td>[]</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>元陞國際有限公司</td>
+                        <td>[]</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <!-- Add id to image -->
-            {#            <img id="graph" style="display:none;" src="../../static/img/neo4j_2.png"/>#}
         </div>
-
-        {#        <script>#}
-        {#            function show() {#}
-        {#                document.getElementById('graph').style.display = "block";#}
-        {#                document.getElementById('btnID').style.display = "none";#}
-        {#            }#}
-        {#        </script>#}
+        <script>
+            function show() {
+                document.getElementById('table').style.display = "block";
+                document.getElementById('btnID').style.display = "none";
+            }
+        </script>
     </form>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="col-md-4">
+        <div class="content-section">
+            <h3>Query description</h3>
+            <div>
+                <p>Query 4 represents what type of products the supplier sells. This helps the users better
+                    understand what type of products a supplier provides. Collect() is to aggregate the category types
+                    together and DISTINCT ensures that there aren’t duplicate values when looking at a table.
+                </p>
+            </div>
+            </p>
+        </div>
     </div>
 {% endblock %}

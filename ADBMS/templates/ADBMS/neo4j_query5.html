@@ -1,0 +1,63 @@
+{% extends "ADBMS/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="freeform">Sample neo4j Query №5</label>
+        <br>
+        <textarea id="freeform" name="freeform" rows="6" cols="85">
+            MATCH (c:USER)-[h:HAVING]->(:RG)-[ct:CONTAIN]->(:PRG)-[:CONNECT]->(:PRODUCT)-[:BELONG]->(cat:CATEGORY)
+return cat.class_name AS purchase, count(ct) AS quantity
+ORDER by quantity
+DESC
+        </textarea>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
+                Run
+            </button>
+            <div style="display:none;" id="table">
+                <table border="1" class="dataframe">
+                    <thead>
+                    <tr style="text-align: right;">
+                        <th></th>
+                        <th>purchase</th>
+                        <th>quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>0</th>
+                        <td>None</td>
+                        <td>42962</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            function show() {
+                document.getElementById('table').style.display = "block";
+                document.getElementById('btnID').style.display = "none";
+            }
+        </script>
+    </form>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="col-md-4">
+        <div class="content-section">
+            <h3>Query description</h3>
+            <div>
+                <p>
+                    Query 5 represents what type of products the user (customer) is buying and how much of it. This way
+                    the supplier can focus on certain products and what products to keep in-stock depending which type
+                    of products they are purchasing. It helps the supplier understand the market better as a whole. For
+                    example, even though one user might be purchasing a lot of one type of product, collectively another
+                    product could be sold more due to multiple users purchasing the other product.
+                </p>
+            </div>
+            </p>
+        </div>
+    </div>
+{% endblock %}
