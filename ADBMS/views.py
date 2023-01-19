@@ -41,78 +41,85 @@ def home(request):
 
 
 def neo4j_query1(request):
-    conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
-    query_string = '''MATCH path = (uu:USER)-[h:HAVING]->(rg:RG)-[ct:CONTAIN]->(prg:PRG)-[conn:CONNECT]->(p:PRODUCT)<-[prov:PROVIDE]-(ss:SUPPLIER {sname:"品冠行銷股份有限公司"})
-    return count(path) AS CT, uu
-    ORDER BY CT DESC
-    LIMIT 3
-    '''
-    dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
-    table = dtf_data.to_html()
-    g = Graph(query_string, auth=('ekoloboff', '20012001'))
-    picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
-    conn.close()
-    return render(request, 'ADBMS/neo4j_query1.html', {'title': 'Home', 'table': table, 'picture': picture})
+    # if yu comment this section, in neo4j_query1 - neo4j_query5 then you don't need db at all.
+    # ------------------ start from the next line-----------------
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''MATCH path = (uu:USER)-[h:HAVING]->(rg:RG)-[ct:CONTAIN]->(prg:PRG)-[conn:CONNECT]->(p:PRODUCT)<-[prov:PROVIDE]-(ss:SUPPLIER {sname:"品冠行銷股份有限公司"})
+    # return count(path) AS CT, uu
+    # ORDER BY CT DESC
+    # LIMIT 3
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    # -------- stop. don forget to choose a right return ---------------
+    # return render(request, 'ADBMS/neo4j_query1.html', {'title': 'Home', 'table': table, 'picture': picture}) # return for uncommented version
+    return render(request, 'ADBMS/neo4j_query1.html') # return for commented version
 
 
 def neo4j_query2(request):
-    conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
-    query_string = '''
-    MATCH (c:CATEGORY {class:"7308"})<-[b:BELONG]-(p:PRODUCT)<-[:PROVIDE]-(:SUPPLIER {sname:"品冠行銷股份有限公司"})
-    RETURN c,b,p
-    '''
-    dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
-    table = dtf_data.to_html()
-    g = Graph(query_string, auth=('ekoloboff', '20012001'))
-    picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
-    conn.close()
-    return render(request, 'ADBMS/neo4j_query2.html', {'title': 'Home', 'table': table, 'picture': picture})
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''
+    # MATCH (c:CATEGORY {class:"7308"})<-[b:BELONG]-(p:PRODUCT)<-[:PROVIDE]-(:SUPPLIER {sname:"品冠行銷股份有限公司"})
+    # RETURN c,b,p
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    # return render(request, 'ADBMS/neo4j_query2.html', {'title': 'Home', 'table': table, 'picture': picture}) # return for uncommented version
+    return render(request, 'ADBMS/neo4j_query2.html')
 
 
 def neo4j_query3(request):
-    conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
-    query_string = '''
-    match (:SUPPLIER {sname:"品冠行銷股份有限公司"}) -[:PROVIDE]->(p:PRODUCT)<-[conn:CONNECT]-(:PRG)<-[ct:CONTAIN]-(:RG) 
-    return p, count(ct) as degree
-    ORDER BY degree DESC
-    LIMIT 1
-    '''
-    dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
-    table = dtf_data.to_html()
-    g = Graph(query_string, auth=('ekoloboff', '20012001'))
-    picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
-    conn.close()
-    return render(request, 'ADBMS/neo4j_query3.html', {'title': 'Home', 'table': table, 'picture': picture})
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''
+    # match (:SUPPLIER {sname:"品冠行銷股份有限公司"}) -[:PROVIDE]->(p:PRODUCT)<-[conn:CONNECT]-(:PRG)<-[ct:CONTAIN]-(:RG)
+    # return p, count(ct) as degree
+    # ORDER BY degree DESC
+    # LIMIT 1
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    # return render(request, 'ADBMS/neo4j_query3.html', {'title': 'Home', 'table': table, 'picture': picture}) # return for uncommented version
+    return render(request, 'ADBMS/neo4j_query3.html')
 
 
 def neo4j_query4(request):
-    conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
-    query_string = '''
-    MATCH (s:SUPPLIER)-[:PROVIDE]->(:PRODUCT)-[t:BELONG] -(c:CATEGORY)
-    return s.sname AS name, collect(DISTINCT c.class_name) AS sells
-    '''
-    dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
-    table = dtf_data.to_html()
-    g = Graph(query_string, auth=('ekoloboff', '20012001'))
-    picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
-    conn.close()
-    return render(request, 'ADBMS/neo4j_query4.html', {'title': 'Home', 'table': table, 'picture': picture})
-
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''
+    # MATCH (s:SUPPLIER)-[:PROVIDE]->(:PRODUCT)-[t:BELONG] -(c:CATEGORY)
+    # return s.sname AS name, collect(DISTINCT c.class_name) AS sells
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    # return render(request, 'ADBMS/neo4j_query4.html', {'title': 'Home', 'table': table, 'picture': picture}) # return for uncommented version
+    return render(request, 'ADBMS/neo4j_query4.html')
 
 def neo4j_query5(request):
-    conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
-    query_string = '''
-    MATCH (c:USER)-[h:HAVING]->(:RG)-[ct:CONTAIN]->(:PRG)-[:CONNECT]->(:PRODUCT)-[:BELONG]->(cat:CATEGORY)
-    return cat.class_name AS purchase, count(ct) AS quantity
-    ORDER by quantity
-    DESC
-    '''
-    dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
-    table = dtf_data.to_html()
-    g = Graph(query_string, auth=('ekoloboff', '20012001'))
-    picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
-    conn.close()
-    return render(request, 'ADBMS/neo4j_query5.html', {'title': 'Home', 'table': table, 'picture': picture})
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''
+    # MATCH (c:USER)-[h:HAVING]->(:RG)-[ct:CONTAIN]->(:PRG)-[:CONNECT]->(:PRODUCT)-[:BELONG]->(cat:CATEGORY)
+    # return cat.class_name AS purchase, count(ct) AS quantity
+    # ORDER by quantity
+    # DESC
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    # return render(request, 'ADBMS/neo4j_query5.html', {'title': 'Home', 'table': table, 'picture': picture}) # return for uncommented version
+    return render(request, 'ADBMS/neo4j_query5.html')
 
 
 def postgresql_query1(request):
