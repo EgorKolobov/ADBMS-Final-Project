@@ -1,0 +1,42 @@
+{% extends "ADBMS/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="freeform">Sample spatial Query №2.1</label>
+        <br>
+        <textarea id="freeform" name="freeform" rows="6" cols="85">
+            SELECT * FROM keyword where class_id in ('[class_id1]', '[class_id2]', '[class_id3]');
+        </textarea>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
+                Run
+            </button>
+            <!-- Add id to image -->
+            <img id="graph" style="display:none;" src="../../static/img/table3.png"/>
+        </div>
+
+        <script>
+            function show() {
+                document.getElementById('graph').style.display = "block";
+                document.getElementById('btnID').style.display = "none";
+            }
+        </script>
+    </form>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="col-md-4">
+        <div class="content-section">
+            <h3>Query description</h3>
+            <div>
+                <p>
+                    Using this query, suppliers could easily know the popularity of the product and decide which kind of
+                    products they can prepare to sell in the specific city as well as the quarter.
+                </p>
+            </div>
+            </p>
+        </div>
+    </div>
+{% endblock %}
