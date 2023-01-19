@@ -113,3 +113,20 @@ def neo4j_query5(request):
     picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
     conn.close()
     return render(request, 'ADBMS/neo4j_query5.html', {'title': 'Home', 'table': table, 'picture': picture})
+
+
+
+def postgresql_query1(request):
+    # conn = Neo4jConnection(uri="bolt://localhost:7687", user="ekoloboff", pwd="20012001")
+    # query_string = '''
+    # MATCH (c:USER)-[h:HAVING]->(:RG)-[ct:CONTAIN]->(:PRG)-[:CONNECT]->(:PRODUCT)-[:BELONG]->(cat:CATEGORY)
+    # return cat.class_name AS purchase, count(ct) AS quantity
+    # ORDER by quantity
+    # DESC
+    # '''
+    # dtf_data = DataFrame([dict(_) for _ in conn.query(query_string, db='neo4j')]).head()
+    # table = dtf_data.to_html()
+    # g = Graph(query_string, auth=('ekoloboff', '20012001'))
+    # picture = neo4jupyter.draw(g, {'label_name': 'attribute_name'})
+    # conn.close()
+    return render(request, 'ADBMS/postgresql_query1.html', {'title': 'Home'})

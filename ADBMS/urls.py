@@ -6,7 +6,8 @@ from .views import (
     neo4j_query2,
     neo4j_query3,
     neo4j_query4,
-    neo4j_query5,)
+    neo4j_query5,
+    postgresql_query1)
 
 urlpatterns = [
     path('', home, name='adbms-home'),
@@ -15,5 +16,6 @@ urlpatterns = [
     path('neo4j-query3/', neo4j_query3, name='neo4j-query3'),
     path('neo4j-query4/', neo4j_query4, name='neo4j-query4'),
     path('neo4j-query5/', neo4j_query5, name='neo4j-query5'),
+    path('postgresql-query1/', postgresql_query1, name='postgresql-query1'),
     path('admin/', admin.site.urls),
 ]

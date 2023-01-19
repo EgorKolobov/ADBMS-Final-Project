@@ -1,0 +1,61 @@
+{% extends "ADBMS/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="freeform">Sample neo4j Query №1</label>
+        <br>
+        <textarea id="freeform" name="freeform" rows="6" cols="85">
+            select c.orderid, c.createtime, c.address, c.warehouse, c.location
+            from (
+                select o.orderid, o.address, o.warehouse, o.createtime, w.location, ST_Distance(a.geo, w.geo) as distance
+                from orders o, supplier s, warehouse w, address a
+                where s."name" like '%[supplier_name]%' and s.id = o.sid and o.warehouse = w.warehouse and a.address = o.address and o.createtime > '[start_date]' and o.createtime < '[end_date]'
+            ) as c
+            where (c.orderid, c.distance) in (
+                select b.orderid, min(distance)
+                from (
+                    select o.orderid, ST_Distance(a.geo, w.geo) as distance
+                    from orders o, supplier s, warehouse w, address a
+                    where s."name" like '%[supplier_name]%' and s.id = o.sid and o.warehouse = w.warehouse and a.address = o.address
+                ) as b
+                group by b.orderid
+            )
+            order by c.createtime;
+        </textarea>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="button" onclick="show()" id="btnID">
+                Run
+            </button>
+            <!-- Add id to image -->
+            {#            <img id="graph" style="display:none;" src="../../static/img/neo4j_1.png"/>#}
+        </div>
+
+        {#        <script>#}
+        {#            function show() {#}
+        {#                document.getElementById('graph').style.display = "block";#}
+        {#                document.getElementById('btnID').style.display = "none";#}
+        {#            }#}
+        {#        </script>#}
+    </form>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="col-md-4">
+        <div class="content-section">
+            <h3>Query description</h3>
+            <div>
+                <p>Query 1 is about given the specific supplier name and the time range, we could use the supplier_id,
+                    which is called sid in our table, to find the corresponding orders in the specific time range. We
+                    could get the geometric information (the address where the product should be delivered) . Also, with
+                    the warehouse address table (Extra Table1 we mentioned above), we could use the function like
+                    ST_Distance() to measure the distance between the warehouse and the target address of each order. If
+                    the ordered products are stored in multiple warehouses, we could pick up the nearest one and show it
+                    to the supplier, which might help the supplier to schedule the most efficient delivery strategy.
+                </p>
+            </div>
+            </p>
+        </div>
+    </div>
+{% endblock %}
